@@ -47,6 +47,7 @@
 	ahb {
 		apb {
 			i2c1: i2c@f0018000 {
+			
 				qt1070: keyboard@1b {
 					compatible = "qt1070";
 					reg = <0x1b>;
@@ -56,7 +57,16 @@
 					pinctrl-0 = <&pinctrl_qt1070_irq>;
 					wakeup-source;
 				};
-
+				
+				mchp_3d_i2c@42 {
+					compatible = "microchip,mchp_3d_i2c";
+					reg = <0x42>;
+					interrupt-parent = <&pioE>;
+					interrupts = <10 0x2>;	/* Falling Edge ?? */
+					pinctrl-names = "default";
+					pinctrl-0 = <&pinctrl_mgc31x0_irq>;
+				};
+				
 				atmel_mxt_ts@4a {
 					compatible = "atmel,atmel_mxt_ts";
 					reg = <0x4a>;
@@ -65,6 +75,7 @@
 					pinctrl-names = "default";
 					pinctrl-0 = <&pinctrl_mxt_ts>;
 				};
+
 			};
 
 			hlcdc: hlcdc@f0030000 {
@@ -85,6 +96,12 @@
 
 			pinctrl@fffff200 {
 				board {
+
+					pinctrl_mgc31x0_irq: mgc31x0_irq {
+						atmel,pins =
+							<AT91_PIOE 10 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP_DEGLITCH>;
+					};
+
 					pinctrl_qt1070_irq: qt1070_irq {
 						atmel,pins =
 							<AT91_PIOE 8 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP_DEGLITCH>;
